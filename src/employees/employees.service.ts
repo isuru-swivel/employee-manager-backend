@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import { Employee } from '../interfaces/employee.interface';
 import { CreateEmployeeDto } from './dto/createEmployee.dto';
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { SortTypes } from '../types';
 
 @Injectable()
 export class EmployeesService {
@@ -33,9 +34,12 @@ export class EmployeesService {
     }
   }
 
-  async listEmployees(): Promise<Employee[]> {
+  async listEmployees(field: string, sort: SortTypes): Promise<Employee[]> {
     try {
-      return await this.employeeModel.find().exec();
+      return await this.employeeModel
+        .find()
+        .sort([[field, sort]])
+        .exec();
     } catch (error) {
       throw new BadRequestException(error.message);
     }

@@ -6,17 +6,22 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/createEmployee.dto';
 import { EmployeesService } from './employees.service';
+import { SortTypes } from '../types';
 
 @Controller('employee')
 export class EmployeesController {
   constructor(private employeeService: EmployeesService) {}
 
   @Get()
-  async getEmployees() {
-    return await this.employeeService.listEmployees();
+  async getEmployees(
+    @Query('field') field: string,
+    @Query('sort') sort: SortTypes,
+  ) {
+    return await this.employeeService.listEmployees(field, sort);
   }
 
   @Post()
