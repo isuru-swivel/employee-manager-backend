@@ -1,7 +1,7 @@
 {
   "version": 2,
   "env": {
-    "DB_CONNECTION": "@mongo_uri"
+    "DB_CONNECTION": "@DB_CONNECTION"
   },
   "builds": [
     {
