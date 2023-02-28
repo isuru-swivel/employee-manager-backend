@@ -1,4 +1,13 @@
-import { IsNotEmpty, IsString, IsEmail, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  Length,
+  IsEnum,
+  IsPhoneNumber,
+  IsOptional,
+  IsAlpha,
+} from 'class-validator';
 
 enum Gender {
   M = 'M',
@@ -7,24 +16,25 @@ enum Gender {
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
-  @IsString()
+  @IsAlpha()
   @Length(6, 10)
   first_name: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsAlpha()
   @Length(6, 10)
   last_name: string;
 
   @IsEmail()
   email: string;
 
-  @IsString()
+  @IsPhoneNumber('LK')
   number: string;
 
-  @IsString()
-  gender: Gender;
+  @IsEnum(Gender)
+  gender: string;
 
+  @IsOptional()
   @IsString()
   photo: string;
 }
