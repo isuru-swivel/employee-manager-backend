@@ -8,10 +8,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api');
   app.enableCors({
-    origin: 'https://employee-manager-frontend-lovat.vercel.app',
-    optionsSuccessStatus: 200,
-    preflightContinue: true,
-    credentials: true,
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type',
   });
   await app.listen(3001);
 }
