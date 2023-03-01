@@ -12,6 +12,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type',
   });
+  console.log('-------------enabled cors');
   await app.listen(3001);
 }
 
