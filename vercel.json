@@ -15,12 +15,7 @@
         "POST",
         "PUT",
         "DELETE"
-      ]
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
+      ],
       "headers": [
         {
           "key": "access-control-allow-origin",
