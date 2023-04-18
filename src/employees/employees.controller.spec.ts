@@ -2,17 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EmployeesController } from './employees.controller';
 import { EmployeesService } from './employees.service';
 import { SortTypes } from '../types';
+import { LoggerModule } from 'nestjs-pino';
+import { employeesProviders } from './employees.providers';
 
 describe('EmployeeController', () => {
   let controller: EmployeesController;
   let service: EmployeesService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [LoggerModule.forRoot()],
       controllers: [EmployeesController],
       providers: [
         EmployeesService,
+        ...employeesProviders,
         {
-          provide: 'employeeModel',
+          provide: 'EMPLOYEE_MODEL',
           useValue: {
             listEmployees: jest.fn(),
             addEmployee: jest.fn(),
