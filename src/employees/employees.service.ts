@@ -30,7 +30,7 @@ export class EmployeesService {
   ) {
     try {
       this.logger.log('updating employee');
-      return await this.employeeModel.updateOne(
+      return this.employeeModel.updateOne(
         { _id: employeeId },
         updateEmployeeDto,
       );
@@ -59,7 +59,7 @@ export class EmployeesService {
   async deleteEmployee(employeeId: string) {
     try {
       this.logger.log('deleting employee');
-      return await this.employeeModel.deleteOne({ _id: employeeId });
+      return this.employeeModel.deleteOne({ _id: employeeId });
     } catch (error) {
       this.logger.error('error while deleting employee', error.message);
       throw new BadRequestException(error.message);
