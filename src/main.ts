@@ -6,6 +6,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalPipes(new ValidationPipe()); //add dto validation
+  app.setGlobalPrefix('api'); //set prefix
+  app.enableCors(); //enable cors
+
+  //Create swagger documentation
   const config = new DocumentBuilder()
     .setTitle('Employee Manager')
     .setDescription('Employee manager API description')
@@ -14,10 +19,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
-  app.useGlobalPipes(new ValidationPipe());
-  app.setGlobalPrefix('api');
-  app.enableCors();
 
   await app.listen(process.env.PORT || 3001);
 }
