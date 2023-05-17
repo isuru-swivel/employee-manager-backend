@@ -4,13 +4,11 @@ import {
   Post,
   Body,
   Param,
-  Query,
   Delete,
   Controller,
 } from '@nestjs/common';
 import {
   ApiTags,
-  ApiQuery,
   ApiResponse,
   getSchemaPath,
   ApiExtraModels,
@@ -18,7 +16,6 @@ import {
 import { CreateEmployeeDto } from './dto/createEmployee.dto';
 import { EmployeeResponseDto } from './dto/employeeResponse.dto';
 import { EmployeesService } from './employees.service';
-import { SortTypes, SortFields } from '../types';
 
 @ApiTags('employee')
 @Controller('employee')
@@ -33,13 +30,8 @@ export class EmployeesController {
       $ref: getSchemaPath(EmployeeResponseDto),
     },
   })
-  @ApiQuery({ name: 'field', enum: SortFields })
-  @ApiQuery({ name: 'sort', enum: SortTypes })
-  async getEmployees(
-    @Query('field') field: string,
-    @Query('sort') sort: SortTypes,
-  ) {
-    return await this.employeeService.listEmployees(field, sort);
+  async getEmployees() {
+    return await this.employeeService.listEmployees();
   }
 
   @Post()

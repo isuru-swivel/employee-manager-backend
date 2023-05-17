@@ -2,7 +2,6 @@ import { Model } from 'mongoose';
 import { Employee } from '../interfaces/employee.interface';
 import { CreateEmployeeDto } from './dto/createEmployee.dto';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { SortTypes } from '../types';
 import { Logger } from 'nestjs-pino';
 
 @Injectable()
@@ -14,6 +13,7 @@ export class EmployeesService {
   ) {}
 
   async addEmployee(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+    //add new employee
     try {
       this.logger.log('adding employee');
       const createdEmployee = new this.employeeModel(createEmployeeDto);
@@ -28,11 +28,13 @@ export class EmployeesService {
     updateEmployeeDto: CreateEmployeeDto,
     employeeId: string,
   ) {
+    //update employee and return updated record
     try {
       this.logger.log('updating employee');
-      return this.employeeModel.updateOne(
+      return this.employeeModel.findOneAndUpdate(
         { _id: employeeId },
         updateEmployeeDto,
+        { new: true },
       );
     } catch (error) {
       this.logger.error('error while update employee', error.message);
@@ -40,16 +42,11 @@ export class EmployeesService {
     }
   }
 
-  async listEmployees(field: string, sort: SortTypes): Promise<Employee[]> {
+  async listEmployees(): Promise<Employee[]> {
+    //get all employee
     try {
-      if (!field) field = 'createdAt';
-      if (!sort) sort = SortTypes.asc;
-
       this.logger.log('getting employees');
-      return await this.employeeModel
-        .find()
-        .sort([[field, sort]])
-        .exec();
+      return await this.employeeModel.find().exec();
     } catch (error) {
       this.logger.error('error while getting employee', error.message);
       throw new BadRequestException(error.message);
@@ -57,6 +54,7 @@ export class EmployeesService {
   }
 
   async deleteEmployee(employeeId: string) {
+    //delete employee
     try {
       this.logger.log('deleting employee');
       return this.employeeModel.deleteOne({ _id: employeeId });
